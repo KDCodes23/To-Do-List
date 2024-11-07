@@ -19,8 +19,53 @@ User Interaction Handling: Added event listeners to handle task completion and d
 Code Highlights
 
 Here's a short code snippet for adding a new task:
+## JavaScript Code for To-Do List Functionality
 
 
+```javascript
+const taskInput = document.getElementById('task-input');
+const addTaskButton = document.getElementById('add-task-button');
+const taskList = document.getElementById('task-list');
+
+// Load tasks from localStorage when the page loads
+window.onload = () => {
+    loadTasks();
+};
+
+// Function to add a new task
+function addTask() {
+    const taskText = taskInput.value.trim();
+    if (taskText === "") return;
+
+    // Create the task item element
+    const taskItem = document.createElement('li');
+    taskItem.classList.add('task-item');
+    taskItem.innerHTML = `
+        <span>${taskText}</span>
+        <button class="delete-button">Delete</button>
+    `;
+
+    // Mark task as completed on click
+    taskItem.addEventListener('click', () => {
+        taskItem.classList.toggle('completed');
+        saveTasks();
+    });
+
+    // Delete task on button click
+    taskItem.querySelector('.delete-button').addEventListener('click', (e) => {
+        e.stopPropagation();
+        taskItem.remove();
+        saveTasks();
+    });
+
+    // Add task to the list and clear input
+    taskList.appendChild(taskItem);
+    taskInput.value = "";
+
+    saveTasks();
+}
+
+```
 Challenges
 Handling empty tasks and preventing them from being added.
 Ensuring the UI was responsive and the styles looked consistent across different screen sizes.
